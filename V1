@@ -1,1 +1,25 @@
+import tkinter
+from tkinter import *
+
+window1 = Tk()
+window1.title("Game Started")
+window1.geometry('350x250')
+
+username = tkinter.Label(window1,text="Pick your username",font=("Arial Bold",10))
+username.grid(column=1,row=0)
+
+level = tkinter.Label(window1,text="Pick your level",font=("Arial Bold",10))
+level.grid(column=1,row=2)
+
+name_entry = tkinter.Entry(window1,width=10)
+name_entry.grid(column=1, row=1)
+
+level_entry = tkinter.Entry(window1,width=10)
+level_entry.grid(column=1, row=3)
+
+beginner = Button(window1,text="Beginner").grid(column=0,row=4)
+intermediate = Button(window1,text="Intermediate").grid(column=1,row=4)
+hard = Button(window1,text="Hard").grid(column=2,row=4)
+
+window1.mainloop()
 
