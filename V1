@@ -1,34 +1,61 @@
 import tkinter
 from tkinter import *
+from PIL import ImageTk, Image
 
 window1 = Tk()
-window1.title("Game Started")
-window1.geometry('350x250')
+window1.title("Instructions page")
+window1.geometry('800x250')
 
-username = tkinter.Label(window1,text="Pick your username",font=("Arial Bold",10))
-username.grid(column=1,row=0)
+instructionsHeading = tkinter.Label(window1,text="Following are the instructions for this game:",font=("Arial Bold",20))
+instructionsHeading.grid(column=0,row=0)
+instruction1 = tkinter.Label(window1,text="1: Press start once you have read all instructions",font=("Arial Bold",10))
+instruction1.grid(column=0,row=1)
+instruction2 = tkinter.Label(window1,text="2: You need to input your username after pressing 'start'",font=("Arial Bold",10))
+instruction2.grid(column=0,row=2)
+instruction3 = tkinter.Label(window1,text="3: You need to select your level of difficulty by clicking on either one of 3 buttons",font=("Arial Bold",10))
+instruction3.grid(column=0,row=3)
+instruction4 = tkinter.Label(window1,text="4: When the game starts you will need to input the correct answer for each question inside the entry box and press enter",font=("Arial Bold",10))
+instruction4.grid(column=0,row=4)
+instruction5 = tkinter.Label(window1,text="5: You can choose to restart or end the game by cicking on the buttons on the top of the screen",font=("Arial Bold",10))
+instruction5.grid(column=0,row=5)
 
-level = tkinter.Label(window1,text="Pick your level",font=("Arial Bold",10))
-level.grid(column=1,row=2)
-
-name_entry = tkinter.Entry(window1,width=10)
-name_entry.grid(column=1, row=1)
-
-beginner = Button(window1,text="Beginner").grid(column=0,row=4)
-intermediate = Button(window1,text="Intermediate").grid(column=1,row=4)
-hard = Button(window1,text="Hard").grid(column=2,row=4)
-
-image1 = PhotoImage(file = "jerry copy.png")
-image1 = resizeImage(image1, 100, 100)
-Image1_label = Label(image = image1).grid(column=0,row=6)
-
-image2 = PhotoImage(file = "jerry 2.png")
-image2 = resizeImage(image2, 100, 100)
-Image2_label = Label(image = image2).grid(column=1,row=6)
-
-image3 = PhotoImage(file = "jerry3.png")
-image3 = resizeImage(image3, 100, 100)
-Image3_label = Label(image = image3).grid(column=2,row=6)
+okButton = Button(window1,text="ok",height= 1,font=("Arial Bold",30),width=5,command=window1.destroy).grid(column=0,row=6)
 
 window1.mainloop()
 
+window2 = Tk()
+window2.title("Game Started")
+window2.geometry('350x250')
+
+username = tkinter.Label(window2,text="Pick your username",font=("Arial Bold",10))
+username.grid(column=1,row=0)
+
+level = tkinter.Label(window2,text="Pick your level",font=("Arial Bold",10))
+level.grid(column=1,row=2)
+
+name_entry = tkinter.Entry(window2,width=10)
+name_entry.grid(column=1, row=1)
+
+beginner = Button(window2,text="Beginner").grid(column=0,row=4)
+intermediate = Button(window2,text="Intermediate").grid(column=1,row=4)
+hard = Button(window2,text="Hard").grid(column=2,row=4)
+
+beginner_image = Image.open("jerry copy.png")
+resized_1 = beginner_image.resize((100, 120))
+image_1 = ImageTk.PhotoImage(resized_1)
+image1_label = Label(window2, image=image_1)
+image1_label.grid(column=0,row=6)
+
+intermediate_image = Image.open("jerry 2.png")
+resized_2 = intermediate_image.resize((100, 120))
+image_2 = ImageTk.PhotoImage(resized_2)
+image2_label = Label(window2, image=image_2)
+image2_label.grid(column=1,row=6)
+
+hard_image = Image.open("jerry3.png")
+resized_3 = hard_image.resize((100, 120))
+image_3 = ImageTk.PhotoImage(resized_3)
+image3_label = Label(window2, image=image_3)
+image3_label.grid(column=2,row=6)
+
+window2.mainloop()
