@@ -7,21 +7,25 @@ window1 = Tk()
 window1.title("Instructions Page")
 window1.geometry('800x250')
 
-instructionsHeading = tkinter.Label(window1,text="Following are the instructions for this game:",font=("Arial Bold",20))
-instructionsHeading.grid(column=0,row=0)
-instruction1 = tkinter.Label(window1,text="1: Press 'OK' once you have read all instructions",font=("Arial Bold",10))
-instruction1.grid(column=0,row=1)
-instruction2 = tkinter.Label(window1,text="2: You will need to input your username after pressing 'OK'",font=("Arial Bold",10))
-instruction2.grid(column=0,row=2)
-instruction3 = tkinter.Label(window1,text="3: You need to select your level of difficulty by clicking on either one of 3 buttons",font=("Arial Bold",10))
-instruction3.grid(column=0,row=3)
-instruction4 = tkinter.Label(window1,text="4: When the game starts you will need to input the correct answer for each question inside the entry box and press enter",font=("Arial Bold",10))
-instruction4.grid(column=0,row=4)
-instruction5 = tkinter.Label(window1,text="5: You can choose to end the game by clicking on the exit button on the top of the screen",font=("Arial Bold",10))
-instruction5.grid(column=0,row=5)
+class instructions_page:
+    def __init__(self, master):
+        self.instructions = [
+            "Following are the instructions for this game:",
+            "1: Press 'OK' once you have read all instructions",
+            "2: You will need to input your username after pressing 'OK'",
+            "3: You need to select your level of difficulty by clicking on either one of 3 buttons",
+            "4: When the game starts you will need to input the correct answer for each question inside the entry box and press enter",
+            "5: You can choose to end the game by clicking on the exit button on the top of the screen"
+        ]
 
-okButton = Button(window1,text="OK",height= 1,font=("Arial Bold",30),width=5,command=window1.destroy).grid(column=0,row=6)
+        for text in self.instructions:
+            label = tkinter.Label(window1, text=text, font=("Helvetica", 14))
+            label.pack(anchor='w', pady=5)
+        
+        self.okbutton = tkinter.Button(window1,text="OK",height= 1,font=("Arial Bold",30),width=5,command=window1.destroy)
+        self.okbutton.pack(pady=10)
 
+page1 = instructions_page(window1)
 window1.mainloop()
 
 window2 = Tk()
@@ -37,35 +41,43 @@ level.grid(column=1,row=2)
 name_entry = tkinter.Entry(window2,width=10)
 name_entry.grid(column=1, row=1)
 
-beginner = Button(window2,text="Beginner").grid(column=0,row=4)
-intermediate = Button(window2,text="Intermediate").grid(column=1,row=4)
-hard = Button(window2,text="Hard").grid(column=2,row=4)
+level_entry = tkinter.Entry(window2,width=10)
+level_entry.grid(column=1, row=3)
+
+beginner = tkinter.Label(window2,text="Beginner",font=("Arial Bold",10))
+beginner.grid(column=0,row=4)
+intermediate = tkinter.Label(window2,text="Intermediate",font=("Arial Bold",10))
+intermediate.grid(column=1,row=4)
+hard = tkinter.Label(window2,text="Hard",font=("Arial Bold",10))
+hard.grid(column=2,row=4)
 
 beginner_image = Image.open("jerry copy.png")
 resized_1 = beginner_image.resize((100, 120))
 image_1 = ImageTk.PhotoImage(resized_1)
 image1_label = Label(window2, image=image_1)
-image1_label.grid(column=0,row=6)
+image1_label.grid(column=0,row=5)
 
 intermediate_image = Image.open("jerry 2.png")
 resized_2 = intermediate_image.resize((100, 120))
 image_2 = ImageTk.PhotoImage(resized_2)
 image2_label = Label(window2, image=image_2)
-image2_label.grid(column=1,row=6)
+image2_label.grid(column=1,row=5)
 
 hard_image = Image.open("jerry3.png")
 resized_3 = hard_image.resize((100, 120))
 image_3 = ImageTk.PhotoImage(resized_3)
 image3_label = Label(window2, image=image_3)
-image3_label.grid(column=2,row=6)
+image3_label.grid(column=2,row=5)
+
+okButton = Button(window2,text="OK",height= 1,font=("Arial Bold",30),width=5,command=window2.destroy).grid(column=0,row=6)
 
 window2.mainloop()
 
-window3 = Tk()
+window3= Tk()
 window3.title("Easy mode")
-window3.geometry('350x250')
+window3.geometry('230x150')
 
-class easy_mode:
+class maths_game:
     def __init__(self, master):
         self.score = 0
         self.create_question()
@@ -91,8 +103,16 @@ class easy_mode:
         self.new_question_label()
 
     def create_question(self):
-        self.num1=random.randint(10,20)
-        self.num2=random.randint(1,10)
+        if level_entry == "Beginner" or "beginner":
+            self.num1=random.randint(10,20)
+            self.num2=random.randint(1,10)
+        if level_entry == "Intermediate" or "intermediate":
+            self.num1=random.randint(50,100)
+            self.num2=random.randint(1,50)
+        if level_entry == "Hard" or "hard":
+            self.num1=random.randint(100,500)
+            self.num2=random.randint(1,100)
+        
         self.sign=random.choice(['+', '-', '*'])
         if self.sign == '+':
             self.answer = self.num1 + self.num2
@@ -124,7 +144,7 @@ class easy_mode:
             invalid_answer.grid(column=1, row=4)                                     
 
     def quit():
-        window3.destroy()
+        window3_easy.destroy()
 
     def restart_game(self):
         self.score = 0
@@ -135,5 +155,5 @@ class easy_mode:
         game_restarted = tkinter.Label(window3, text = "The game has restarted")
         game_restarted.grid(column=1, row=4)
 
-quiz = easy_mode(window3)
+quiz = maths_game(window3)
 window3.mainloop
