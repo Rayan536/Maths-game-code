@@ -8,7 +8,7 @@ window1.title("Instructions Page")
 window1.geometry('800x250')
 
 class instructions_page:
-    def __init__(self, master):
+    def __init__(self,window1):
         self.instructions = [
             "Following are the instructions for this game:",
             "1: Press 'OK' once you have read all instructions",
@@ -32,45 +32,51 @@ window2 = Tk()
 window2.title("Home Page")
 window2.geometry('350x250')
 
-username = tkinter.Label(window2,text="Pick your username",font=("Arial Bold",10))
-username.grid(column=1,row=0)
+class HomePage:
+    def __init__(self, window2):
+        self.username = Label(window2,text="Pick your username",font=("Arial Bold",10))
+        self.username.grid(column=1,row=0)
 
-level = tkinter.Label(window2,text="Pick your level",font=("Arial Bold",10))
-level.grid(column=1,row=2)
+        self.level = Label(window2,text="Pick your level",font=("Arial Bold",10))
+        self.level.grid(column=1,row=2)
 
-name_entry = tkinter.Entry(window2,width=10)
-name_entry.grid(column=1, row=1)
+        self.username_entry = Entry(window2,width=10)
+        self.username_entry.grid(column=1, row=1)
 
-level_entry = tkinter.Entry(window2,width=10)
-level_entry.grid(column=1, row=3)
+        self.level_entry = Entry(window2,width=10)
+        self.level_entry.grid(column=1, row=3)
 
-beginner = tkinter.Label(window2,text="Beginner",font=("Arial Bold",10))
-beginner.grid(column=0,row=4)
-intermediate = tkinter.Label(window2,text="Intermediate",font=("Arial Bold",10))
-intermediate.grid(column=1,row=4)
-hard = tkinter.Label(window2,text="Hard",font=("Arial Bold",10))
-hard.grid(column=2,row=4)
+        self.beginner = Label(window2,text="Beginner",font=("Arial Bold",10))
+        self.beginner.grid(column=0,row=4)
+        self.intermediate = Label(window2,text="Intermediate",font=("Arial Bold",10))
+        self.intermediate.grid(column=1,row=4)
+        self.hard = Label(window2,text="Hard",font=("Arial Bold",10))
+        self.hard.grid(column=2,row=4)
 
-beginner_image = Image.open("jerry copy.png")
-resized_1 = beginner_image.resize((100, 120))
-image_1 = ImageTk.PhotoImage(resized_1)
-image1_label = Label(window2, image=image_1)
-image1_label.grid(column=0,row=5)
+        self.display_images()
 
-intermediate_image = Image.open("jerry 2.png")
-resized_2 = intermediate_image.resize((100, 120))
-image_2 = ImageTk.PhotoImage(resized_2)
-image2_label = Label(window2, image=image_2)
-image2_label.grid(column=1,row=5)
+        self.startButton = Button(window2,text="Start Game",height= 1,font=("Arial Bold",30),width=5,command=window2.destroy).grid(column=0,row=6)
 
-hard_image = Image.open("jerry3.png")
-resized_3 = hard_image.resize((100, 120))
-image_3 = ImageTk.PhotoImage(resized_3)
-image3_label = Label(window2, image=image_3)
-image3_label.grid(column=2,row=5)
+    def display_images(self):
+        beginner_image = Image.open("jerry copy.png")
+        resized_1 = beginner_image.resize((100, 120))
+        self.image_1 = ImageTk.PhotoImage(resized_1)
+        self.image1_label = Label(window2, image=self.image_1)
+        self.image1_label.grid(column=0,row=5)
 
-okButton = Button(window2,text="OK",height= 1,font=("Arial Bold",30),width=5,command=window2.destroy).grid(column=0,row=6)
+        intermediate_image = Image.open("jerry 2.png")
+        resized_2 = intermediate_image.resize((100, 120))
+        self.image_2 = ImageTk.PhotoImage(resized_2)
+        self.image2_label = Label(window2, image=self.image_2)
+        self.image2_label.grid(column=1,row=5)
 
+        hard_image = Image.open("jerry3.png")
+        resized_3 = hard_image.resize((100, 120))
+        self.image_3 = ImageTk.PhotoImage(resized_3)
+        self.image3_label = Label(window2, image=self.image_3)
+        self.image3_label.grid(column=2,row=5)
+
+page2 = HomePage(window2)
 window2.mainloop()
 
 window3= Tk()
@@ -78,7 +84,7 @@ window3.title("Easy mode")
 window3.geometry('230x150')
 
 class maths_game:
-    def __init__(self, master):
+    def __init__(self, window3,)
         self.score = 0
         self.create_question()
 
@@ -106,10 +112,10 @@ class maths_game:
         if level_entry == "Beginner" or "beginner":
             self.num1=random.randint(10,20)
             self.num2=random.randint(1,10)
-        if level_entry == "Intermediate" or "intermediate":
+        elif level_entry == "Intermediate" or "intermediate":
             self.num1=random.randint(50,100)
             self.num2=random.randint(1,50)
-        if level_entry == "Hard" or "hard":
+        elif level_entry == "Hard" or "hard":
             self.num1=random.randint(100,500)
             self.num2=random.randint(1,100)
         
