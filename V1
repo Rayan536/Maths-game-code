@@ -7,84 +7,96 @@ window1 = Tk()
 window1.title("Instructions Page")
 window1.geometry('800x250')
 
-class instructions_page:
-    def __init__(self,window1):
-        self.instructions = [
-            "Following are the instructions for this game:",
-            "1: Press 'OK' once you have read all instructions",
-            "2: You will need to input your username after pressing 'OK'",
-            "3: You need to select your level of difficulty by clicking on either one of 3 buttons",
-            "4: When the game starts you will need to input the correct answer for each question inside the entry box and press enter",
-            "5: You can choose to end the game by clicking on the exit button on the top of the screen"
-        ]
 
-        for text in self.instructions:
-            label = tkinter.Label(window1, text=text, font=("Helvetica", 14))
-            label.pack(anchor='w', pady=5)
-        
-        self.okbutton = tkinter.Button(window1,text="OK",height= 1,font=("Arial Bold",30),width=5,command=window1.destroy)
-        self.okbutton.pack(pady=10)
+instructions = [
+    "Following are the instructions for this game:",
+    "1: Press 'OK' once you have read all instructions",
+    "2: Input your user name and level when asked on the next window and press 'start game'",
+    "3: Input the answers to the questions in the entry box and press 'Enter'",
+    "4: You can choose to restart the game by clicking the restart button which resets your score",
+    "5: Press the 'Finish' button on the top of the screen to stop the game"
+    ]
+for text in instructions:
+    label = tkinter.Label(window1, text=text, font=("Arial Bold", 10))
+    label.pack(anchor='w', pady=5)
 
-page1 = instructions_page(window1)
+okbutton = tkinter.Button(window1, text="OK", height=1, font=("Arial Bold", 20), width=3, command=window1.destroy)
+okbutton.pack(pady=10)
+
 window1.mainloop()
 
+
+
 window2 = Tk()
-window2.title("Home Page")
-window2.geometry('350x250')
+window2.title("Selection Page")
+window2.geometry('400x350')
 
-class HomePage:
-    def __init__(self, window2):
-        self.username = Label(window2,text="Pick your username",font=("Arial Bold",10))
-        self.username.grid(column=1,row=0)
+username = Label(window2, text="Pick your username", font=("Arial Bold", 10))
+username.grid(column=1, row=0)
 
-        self.level = Label(window2,text="Pick your level",font=("Arial Bold",10))
-        self.level.grid(column=1,row=2)
+level = Label(window2, text="Pick your level", font=("Arial Bold", 10))
+level.grid(column=1, row=2)
 
-        self.username_entry = Entry(window2,width=10)
-        self.username_entry.grid(column=1, row=1)
+username_entry = Entry(window2, width=10)
+username_entry.grid(column=1, row=1)
 
-        self.level_entry = Entry(window2,width=10)
-        self.level_entry.grid(column=1, row=3)
+level_entry = Entry(window2, width=10)
+level_entry.grid(column=1, row=3)
 
-        self.beginner = Label(window2,text="Beginner",font=("Arial Bold",10))
-        self.beginner.grid(column=0,row=4)
-        self.intermediate = Label(window2,text="Intermediate",font=("Arial Bold",10))
-        self.intermediate.grid(column=1,row=4)
-        self.hard = Label(window2,text="Hard",font=("Arial Bold",10))
-        self.hard.grid(column=2,row=4)
+beginner = Label(window2, text="Beginner", font=("Arial Bold", 10))
+beginner.grid(column=0, row=4)
 
-        self.display_images()
+intermediate = Label(window2, text="Intermediate", font=("Arial Bold", 10))
+intermediate.grid(column=1, row=4)
 
-        self.startButton = Button(window2,text="Start Game",height= 1,font=("Arial Bold",30),width=5,command=window2.destroy).grid(column=0,row=6)
+hard = Label(window2, text="Hard", font=("Arial Bold", 10))
+hard.grid(column=2, row=4)
 
-    def display_images(self):
-        beginner_image = Image.open("jerry copy.png")
-        resized_1 = beginner_image.resize((100, 120))
-        self.image_1 = ImageTk.PhotoImage(resized_1)
-        self.image1_label = Label(window2, image=self.image_1)
-        self.image1_label.grid(column=0,row=5)
+beginner_image = Image.open("jerry copy.png")
+resized_1 = beginner_image.resize((100, 120))
+image_1 = ImageTk.PhotoImage(resized_1)
+image1_label = Label(window2, image=image_1)
+image1_label.grid(column=0, row=5)
 
-        intermediate_image = Image.open("jerry 2.png")
-        resized_2 = intermediate_image.resize((100, 120))
-        self.image_2 = ImageTk.PhotoImage(resized_2)
-        self.image2_label = Label(window2, image=self.image_2)
-        self.image2_label.grid(column=1,row=5)
+intermediate_image = Image.open("jerry 2.png")
+resized_2 = intermediate_image.resize((100, 120))
+image_2 = ImageTk.PhotoImage(resized_2)
+image2_label = Label(window2, image=image_2)
+image2_label.grid(column=1, row=5)
 
-        hard_image = Image.open("jerry3.png")
-        resized_3 = hard_image.resize((100, 120))
-        self.image_3 = ImageTk.PhotoImage(resized_3)
-        self.image3_label = Label(window2, image=self.image_3)
-        self.image3_label.grid(column=2,row=5)
+hard_image = Image.open("jerry3.png")
+resized_3 = hard_image.resize((100, 120))
+image_3 = ImageTk.PhotoImage(resized_3)
+image3_label = Label(window2, image=image_3)
+image3_label.grid(column=2, row=5)
 
-page2 = HomePage(window2)
+def start_game():
+    global selected_level
+    if username_entry.get() == "":
+        no_username = tkinter.Label(window2, text = "Please enter a username")
+        no_username.grid(column=1, row=7)
+    elif level_entry.get().lower() not in ["beginner", "intermediate", "hard","Beginner", "Intermediate", "Hard"]:
+        invalid_level = tkinter.Label(window2, text = "Please pick a valid level")
+        invalid_level.grid(column=1, row=7)
+    else:
+        selected_level = level_entry.get().lower()
+        window2.destroy()
+
+startButton = Button(window2, text="Start Game", height=1, font=("Arial Bold", 20), width=9, command=start_game)
+startButton.grid(column=1, row=6)
+
+
 window2.mainloop()
 
-window3= Tk()
-window3.title("Easy mode")
+
+
+window3 = Tk()
+window3.title("Game Started")
 window3.geometry('230x150')
 
 class maths_game:
-    def __init__(self, window3,)
+    def __init__(self, window3, level):
+        self.level = level
         self.score = 0
         self.create_question()
 
@@ -100,8 +112,8 @@ class maths_game:
         self.score_label = tkinter.Label(window3, text = f"Score: {self.score}")
         self.score_label.grid(column=1, row=0)
 
-        self.stop_button = tkinter.Button(window3, text = "Exit", command = quit)
-        self.stop_button.grid(column=2, row=0)
+        self.finish_button = tkinter.Button(window3, text = "Finish", command = self.quit_game)
+        self.finish_button.grid(column=2, row=0)
 
         self.restart_button = tkinter.Button(window3, text="Restart", command=self.restart_game)
         self.restart_button.grid(column=0, row=0)
@@ -109,13 +121,13 @@ class maths_game:
         self.new_question_label()
 
     def create_question(self):
-        if level_entry == "Beginner" or "beginner":
+        if self.level == "Beginner" or "beginner":
             self.num1=random.randint(10,20)
             self.num2=random.randint(1,10)
-        elif level_entry == "Intermediate" or "intermediate":
+        elif self.level == "Intermediate" or "intermediate":
             self.num1=random.randint(50,100)
             self.num2=random.randint(1,50)
-        elif level_entry == "Hard" or "hard":
+        elif self.level == "Hard" or "hard":
             self.num1=random.randint(100,500)
             self.num2=random.randint(1,100)
         
@@ -135,10 +147,10 @@ class maths_game:
             user_input = int(self.answer_input.get())
             if user_input == self.answer:
                 self.score += 1
-                correct_answer = tkinter.Label(window3, text = "Correct answer!!! :)")
+                correct_answer = tkinter.Label(window3, text = "  Correct answer!!! :)  ")
                 correct_answer.grid(column=1, row=4)
             else:
-                wrong_answer = tkinter.Label(window3, text = "Wrong answer :(")
+                wrong_answer = tkinter.Label(window3, text = " Wrong answer :( ")
                 wrong_answer.grid(column=1, row=4)
 
             self.score_label.config(text = f"Score: {self.score}")
@@ -146,11 +158,12 @@ class maths_game:
             self.create_question()
             self.new_question_label()
         except ValueError:
-            invalid_answer = tkinter.Label(window3, text = "Enter a number only")
+            invalid_answer = tkinter.Label(window3, text = "  Enter a number only  ")
             invalid_answer.grid(column=1, row=4)                                     
 
-    def quit():
-        window3_easy.destroy()
+    def quit_game(self):
+        window3.destroy()
+        game_over_window()
 
     def restart_game(self):
         self.score = 0
@@ -161,5 +174,21 @@ class maths_game:
         game_restarted = tkinter.Label(window3, text = "The game has restarted")
         game_restarted.grid(column=1, row=4)
 
-quiz = maths_game(window3)
+quiz = maths_game(window3, selected_level)
 window3.mainloop
+
+def game_over_window():
+    window4 = tkinter.Tk()
+    window4.title("Game Over")
+    window4.geometry('500x300')
+
+    game_over = tkinter.Label(window4, text="Thanks for playing",font=("Arial Bold", 10))
+    game_over.pack(pady=10)
+
+    goodJob_image = Image.open("Good job.png")
+    resized_4 = goodJob_image.resize((200, 240))
+    image_4 = ImageTk.PhotoImage(resized_4)
+    image4_label = tkinter.Label(window4, image=image_4)
+    image4_label.pack(pady = 10)
+
+    window4.mainloop()
