@@ -1,21 +1,17 @@
+# Import TKinter
 import tkinter
+# imports everything (all classes, functions, constants, etc.)
 from tkinter import *
+# Using pillow, import ImageTk/Image to display images
 from PIL import ImageTk, Image
+# Import the random function for the question generator
 import random
 
-# Define a class for the maths game
-class maths_game:
-    # Use the init funtion to set default values for different variables -
-    # and display the first window
+# Make an instructions window
+class InstructionsWindow:
+    # Initialise the instructions window
     def __init__(self):
-        self.score = 0
-        self.question_count = 0
-        self.max_questions = 10
-        self.instructions_window()
-
-    # Define everything that goes in the instruction window
-    def instructions_window(self):
-        # Create third window
+        # Create the first window
         self.window1 = Tk()
         # Set title of the fourth window
         self.window1.title("Instructions Page")
@@ -24,33 +20,42 @@ class maths_game:
         # Set size of fourth window
         self.window1.geometry('800x250')
 
-        # The instructions for the game are stored in the 'instructions' variable 
+        # The instructions for the game are stored in the 'instructions' -
+        # variable 
         instructions = [
             "Following are the instructions for this game:",
             "1: Press 'OK' once you have read all instructions",
-            "2: Input your user name and level when asked on the next window and press 'start game'",
-            "3: Input the answers to the questions in the entry box and press 'Enter'",
-            "4: You can choose to restart the game by clicking the restart button which resets your score",
-            "5: Press the 'Finish' button on the top of the screen to stop the game"
+            "2: Input your username + level when asked and press 'start game'",
+            "3: Input the answers in the entry box and press 'Enter",
+            "4: You can restart the game by clicking the restart button",
+            "5: Press the 'Finish' button at the top to stop the game anytime"
         ]
 
         # Display the instructions stored in the 'instructions' variable
         for text in instructions:
-            label = tkinter.Label(self.window1, text=text, font=("Arial Bold", 10))
+            label = tkinter.Label(self.window1, text=text,
+                                  font=("Arial Bold", 10))
             label.pack(anchor='w', pady=5)
 
         # Create an OK button that makes user go to next window
-        okbutton = tkinter.Button(self.window1, text="OK", bg='purple1', height=1, font=("Arial Bold", 20), width=3, command=self.selection_window)
-        okbutton.pack(pady=10)
+        ok_button = tkinter.Button(self.window1, text="OK", bg='purple1',
+                                  height=1,
+        font=("Arial Bold", 20), width=3, command=self.open_selection_window)
+        ok_button.pack(pady=10)
 
         # Start the event loop for window 1
         self.window1.mainloop()
 
-    # Define all the things that need to be in the selection window
-    def selection_window(self):
-        # Destroy the first window
+    # Destroy window 1 and open the selection window
+    def open_selection_window(self):
         self.window1.destroy()
-        # Create the second window
+        SelectionWindow()
+
+# Make a class that make the selection window 
+class SelectionWindow:
+    # Initialise the selection window
+    def __init__(self):
+        # Create a second window
         self.window2 = Tk()
         # Set title of the second window
         self.window2.title("Selection Page")
@@ -60,12 +65,14 @@ class maths_game:
         self.window2.geometry('400x350')
 
         # Display a label that asks the user for their username
-        username = Label(self.window2, text="Pick your username", font=("Arial Bold", 10))
-        username.grid(column=1, row=0)
+        username_label = Label(self.window2, text="Pick your username",
+                         font=("Arial Bold", 10))
+        username_label.grid(column=1, row=0)
 
         # Display a label that asks the user for difficulty level
-        level = Label(self.window2, text="Pick your level", font=("Arial Bold", 10))
-        level.grid(column=1, row=2)
+        level_label = Label(self.window2, text="Pick your level",
+                      font=("Arial Bold", 10))
+        level_label.grid(column=1, row=2)
 
         # Create an entry box for the username
         self.username_entry = Entry(self.window2, width=10)
@@ -77,18 +84,20 @@ class maths_game:
 
         # Display the word 'Beginner' to show the user an option for the
         # difficulty levels
-        beginner = Label(self.window2, text="Beginner", font=("Arial Bold", 10))
-        beginner.grid(column=0, row=4)
+        beginner_label = Label(self.window2, text="Beginner",
+                         font=("Arial Bold", 10))
+        beginner_label.grid(column=0, row=4)
 
         # Display the word 'Intermediate' to show the user an option for the -
         # difficulty levels
-        intermediate = Label(self.window2, text="Intermediate", font=("Arial Bold", 10))
-        intermediate.grid(column=1, row=4)
+        intermediate_label = Label(self.window2, text="Intermediate",
+                             font=("Arial Bold", 10))
+        intermediate_label.grid(column=1, row=4)
 
-        # Display the word 'Hard' to show the user an option for the difficulty -
-        # levels
-        hard = Label(self.window2, text="Hard", font=("Arial Bold", 10))
-        hard.grid(column=2, row=4)
+        # Display the word 'Hard' to show the user an option for the -
+        # difficulty levels
+        hard_label = Label(self.window2, text="Hard", font=("Arial Bold", 10))
+        hard_label.grid(column=2, row=4)
 
         # Load, resize, and display an image that represents 'Beginnner'
         beginner_image = Image.open("jerry 1.png")
@@ -112,34 +121,58 @@ class maths_game:
         image3_label.grid(column=2, row=5)
 
         # Create and display the 'Start Game' button
-        startButton = Button(self.window2, text="Start Game", bg="purple1", height=1, font=("Arial Bold", 20), width=9, command=self.start_game)
-        startButton.grid(column=1, row=6)
+        start_button = Button(self.window2, text="Start Game", bg="purple1",
+        height=1,
+        font=("Arial Bold", 20), width=9, command=self.start_game)
+        start_button.grid(column=1, row=6)
 
         # Start the event loop for window 2
         self.window2.mainloop()
 
-    # Define the logic that starts the game after user inputs
+    # Define what happens when the user clicks the 'start' button
     def start_game(self):
         # If username is not entered, a message is displayed
         if self.username_entry.get() == "":
-            no_username = tkinter.Label(self.window2, text="Please enter a username", fg="red")
+            no_username = tkinter.Label(self.window2,
+            text="Please enter a username", fg="red")
             no_username.grid(column=1, row=7)
         # If level is not valid, a message is displayed
         elif self.level_entry.get().lower() not in ["beginner", "intermediate",
                                                     "hard"]:
-            invalid_level = tkinter.Label(self.window2, text="Please pick a valid level", fg="red")
+            invalid_level = tkinter.Label(self.window2,
+                                          text="Please pick a valid level",
+                                          fg="red")
             invalid_level.grid(column=1, row=7)
-        # Otherwise, proceed to the game window and store the user input -
-        # values in instance variables
+        # Otherwise: 
         else:
-            self.username = self.username_entry.get()
+            # Save the user's username before destroying window
+            self.selected_username = self.username_entry.get()
+            # Save the user's level entry before destrying window
             self.selected_level = self.level_entry.get().lower()
-            self.window2.destroy()
-            self.game_window()
 
-    # Define everything that goes in the game window
-    def game_window(self):
-        # Create third window
+            # Save the user's username and level in a txt file
+            with open("User_entries.txt", "a") as file:
+                file.write(f"Username: {self.selected_username}\n")
+                file.write(f"Level: {self.selected_level}\n")
+
+            # Destroy the selection window
+            self.window2.destroy()
+            # Open the game window and pass on the variables needed to the window
+            GameWindow(self.selected_username, self.selected_level)
+
+# Make the game window
+class GameWindow:
+    # Initialise the game window and 
+    def __init__(self, selected_username, selected_level):
+        # Assign the parameters to the instance variables
+        self.selected_username = selected_username
+        self.selected_level = selected_level
+        # set default values for different variables
+        self.score = 0
+        self.question_count = 0
+        self.max_questions = 10
+
+        # Create a third window
         self.window3 = Tk()
         # Set title of third window
         self.window3.title("Game Started")
@@ -148,8 +181,6 @@ class maths_game:
         # Set size of third window
         self.window3.geometry('230x150')
 
-        self.score = 0
-        self.question_count = 0
         # Create the first question
         self.create_question()
 
@@ -162,19 +193,26 @@ class maths_game:
         self.answer_input.grid(column=1, row=2)
         
         # Creates a button to submit answer which checks the user's answer
-        self.enter_button = tkinter.Button(self.window3, text="Enter", bg='green yellow', command=self.examine_answer)
+        self.enter_button = tkinter.Button(self.window3, text="Enter",
+                                           bg='purple1',
+        command=self.examine_answer)
         self.enter_button.grid(column=1, row=3)
 
         # Creates a label to display the user's score
-        self.score_label = tkinter.Label(self.window3, text=f"Score: {self.score}")
+        self.score_label = tkinter.Label(self.window3,
+                                         text=f"Score: {self.score}")
         self.score_label.grid(column=1, row=0)
 
         # Creates a button to end the game and display the end game window
-        self.finish_button = tkinter.Button(self.window3, text="Finish", bg='green yellow', command=self.quit_game)
+        self.finish_button = tkinter.Button(self.window3,
+                                            text="Finish", bg='purple1',
+                                            command=self.quit_game)
         self.finish_button.grid(column=2, row=0)
 
         # Creates a button to restart the game
-        self.restart_button = tkinter.Button(self.window3, text="Restart", bg='green yellow', command=self.restart_game)
+        self.restart_button = tkinter.Button(self.window3, text="Restart",
+                                             bg='purple1',
+                                             command=self.restart_game)
         self.restart_button.grid(column=0, row=0)
 
         # Displays the next question
@@ -213,21 +251,28 @@ class maths_game:
     # Define the function that will be used to display the next question -
     # by setting out the structure of the question 
     def new_question_label(self):
-        self.question_label.config(text=f"Q{self.question_count + 1}: {self.num1} {self.sign} {self.num2} = ")
+        self.question_label.config(text=f"Q{self.question_count + 1}/10: {self.num1} {self.sign} {self.num2} = ")
 
     # Define the function that checks the answers
     def examine_answer(self):
         # Check answer for wether its correct or incorrect
         try:
             user_input = int(self.answer_input.get())
+
+            # Save the user's answer inputs to the txt file
+            with open("User_entries.txt", "a") as file:
+                file.write(f"Question {self.question_count + 1}: {self.num1} {self.sign} {self.num2} = {user_input} (Correct Answer: {self.answer})\n")
+            
             # If answer is correct a message is shown and score increases by 1
             if user_input == self.answer:
                 self.score += 1
-                correct_answer = tkinter.Label(self.window3, text="  Correct answer!!! :)  ")
+                correct_answer = tkinter.Label(self.window3,
+                                               text="   Correct answer!!! :)   ", fg='green')
                 correct_answer.grid(column=1, row=4)
             # If answer is incorrect a message is shown and score stays the same
             else:
-                wrong_answer = tkinter.Label(self.window3, text="   Wrong answer :(   ")
+                wrong_answer = tkinter.Label(self.window3,
+                                             text="     Wrong answer :(     ", fg='red')
                 wrong_answer.grid(column=1, row=4)
 
             # Display score
@@ -258,7 +303,7 @@ class maths_game:
         # Destroy window 3
         self.window3.destroy()
         # Open the game over window
-        self.game_over_window()
+        GameOverWindow(self.selected_username, self.score, self.max_questions)
 
     # Define the restart game function
     def restart_game(self):
@@ -278,8 +323,15 @@ class maths_game:
         game_restarted = tkinter.Label(self.window3, text="The game has restarted")
         game_restarted.grid(column=1, row=4)
 
-    # Define the function that opens the game over window
-    def game_over_window(self):
+# Make the game over window
+class GameOverWindow:
+    # Initialise window and set perimeters
+    def __init__(self, selected_username, score, max_questions):
+        # Assign the parameters to the instance variables
+        self.selected_username = selected_username
+        self.score = score
+        self.max_questions = max_questions
+
         # Create fourth window
         window4 = tkinter.Tk()
         # Set title of fourth window
@@ -290,8 +342,12 @@ class maths_game:
         window4.geometry('500x300')
 
         # Dipslays a label that displays the user's final score
-        game_over = tkinter.Label(window4, text=f"Your final score is: {self.score}", font=("Arial Bold", 10))
-        game_over.pack(pady=10)
+        final_score = tkinter.Label(window4, text=f"Your final score is: {self.score}", font=("Arial Bold", 10))
+        final_score.pack(pady=10)
+
+        # Save final score to txt file
+        with open("User_entries.txt", "a") as file:
+            file.write(f"Final Score: {self.score}\n")
         
         # Loads, displays, and resizes the thumbs up image
         goodJob_image = Image.open("Good job.png")
@@ -303,5 +359,6 @@ class maths_game:
         # Starts the event loop for window 4
         window4.mainloop()
 
-# Create an instance of the MathGameApp class to start the game
-app = maths_game()
+# Run the game
+if __name__ == "__main__":
+    InstructionsWindow()
